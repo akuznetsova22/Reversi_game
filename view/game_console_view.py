@@ -26,8 +26,6 @@ class GameConsoleView(GameView):
     return row, col
   def get_move_with_AI(self):
     """gets the move coordinates from the player
-    Args:
-        player (int): player
     """
     while True:
       try:
@@ -66,6 +64,8 @@ class GameConsoleView(GameView):
     print(f'The winner is: {player}')
 
   def menu(self):
+    """inputs users choice of game mode. PvP or simple AI
+    """
     while True:
       try:
         choice = int(input('Welcome to Reversi. Select mode:\n1: to play against another player, 2: to play against computer: '))
@@ -74,6 +74,8 @@ class GameConsoleView(GameView):
         print('Choose option 1 or 2')
       return choice
   def display_computer_move(self):
+    """prints message about computers turn
+    """
     print('It is computer turn now. Thinking...')
   
   

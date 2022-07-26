@@ -119,6 +119,7 @@ class Game:
         player (int): player number
     Returns:
         list: coordinates of the best move
+        bool: False if there are no moves available
     """
     moves = self.get_available_moves(player)  
     score_moves = []
@@ -135,7 +136,7 @@ class Game:
         scores['O'] += new_disks
         scores['X'] -= (new_disks-1)
         score_moves.append(scores['O']-scores['X'])
-    #Choosing the move that will result in more flipped disks
+    #Choosing the move that will result in more flipped disks. If none - returns False
     if len(score_moves)>0:
       ind_best_move = score_moves.index(max(score_moves))
       best_move = moves[ind_best_move]

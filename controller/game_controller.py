@@ -10,7 +10,7 @@ class GameController:
         self.model = model
 
     def run_game_pvp(self): 
-        """Runs the Reversi game
+        """Runs the Reversi game player vs player
         """
         #creating the board with starting player positions and displaying it to the user   
         self.model.initialize_board()
@@ -39,7 +39,7 @@ class GameController:
         if player:
             self.view.display_winner(player)
     def run_game_AI(self): 
-        """Runs the Reversi game
+        """Runs the Reversi game with a simple AI
         """
         #creating the board with starting player positions and displaying it to the user   
         self.model.initialize_board()
@@ -61,6 +61,7 @@ class GameController:
             self.model.make_move(row, col)
             self.model.change_player()
             self.view.draw_board()
+            #terminate game if not moves left for both players
             if self.model.is_terminated():
                 break
             else:
@@ -69,7 +70,6 @@ class GameController:
                 if AI_move:
                     self.model.make_move(AI_move[0], AI_move[1])
                     self.model.change_player()
-                #terminate game if not moves left for both players
                 else:
                     break
         #checks the winner of the game
