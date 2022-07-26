@@ -12,12 +12,24 @@ class Board:
 
 
   def get_cell(self, row, col):
+    """finds the matrix cell by given coordinates
+
+    Args:
+        row (int): x coordinate
+        col (int): y coordinate
+    """
     return self.mat[row][col]
 
   def update_cell(self, row, col, player):
+    """Puts player's disk on the given cell
+
+    Args:
+        row (int): x coordinate
+        col (int): y coordinate
+        player (int): player number
+    """
     self.mat[row][col] = player
   
 
 
 
-#Test

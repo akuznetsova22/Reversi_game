@@ -2,6 +2,8 @@ from abc import ABC, abstractmethod
 from model.game import Game
 
 class GameView(ABC):
+  """Abstract class Game View to be called by the controller
+  """
   def __init__(self, game) -> None:
     self.game = game
 

@@ -10,6 +10,8 @@ class GameController:
         self.model = model
 
     def run_game(self): 
+        """Runs the Reversi game
+        """
         #creating the board with starting player positions and displaying it to the user   
         self.model.initialize_board()
         while True:
@@ -39,6 +41,8 @@ class GameController:
             self.view.display_winner(player)
     
     def save_winner(self):
+        """Saves the information (date, winner, scores) about the game in a text file
+        """
         winner = self.model.check_winner()
         scores = self.model.keep_score()
         date = datetime.now()

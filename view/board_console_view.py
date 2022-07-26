@@ -3,6 +3,8 @@ from model.board import Board
 from model.players import Player
 
 class BoardConsoleView(BoardView):
+    """Board Console View class. Draws the gaming board
+    """
 
     symbols = {0: ' ', 1: 'X', 2: 'O'}
 
@@ -11,6 +13,8 @@ class BoardConsoleView(BoardView):
     
 
     def draw_board(self):
+        """prints current state of the gaming board to the user
+        """
         board_size = self.board.size
         print('  | ', end='')
         for i in range (board_size):
@@ -26,5 +30,3 @@ class BoardConsoleView(BoardView):
             print('|')
             print(header)
 
-
-  #Test 
