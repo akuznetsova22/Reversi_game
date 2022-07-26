@@ -15,8 +15,13 @@ class GameConsoleView(GameView):
         player (int): player
     """
     print(f'Player {player}: It\'s your turn.')
-    s = input('Enter your move (row, col):').split(',')
-    row, col = int(s[0])-1, int(s[1])-1
+    while True:
+      try:
+        s = input('Enter your move (row, col): ').split(',')
+        row, col = int(s[0])-1, int(s[1])-1
+        break
+      except:
+        print('Coordinates should be two numbers, separated by comma. Try again')
     return row, col
   
   def no_moves(self):
