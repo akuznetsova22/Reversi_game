@@ -1,0 +1,73 @@
+@startuml
+class GameController{
+    view: GameView
+    model: Game
+    run_game()
+    save_winner()
+}
+class Board{
+    size: int
+    get_cell()
+    update_cell()
+}
+class Game{
+    board_size: int
+    initialize_board()
+    change_player()
+    make_move()
+    is_valid_coordinates()
+    is_valid_move()
+    get_available_moves()
+    show_moves()
+    is_terminated()
+    keep_score()
+    check_winner()
+}
+enum Player{
+}
+
+class BoardConsoleView{
+    board: Board
+    draw_board()
+}
+
+abstract class BoardView{
+    board: Board
+    draw_board()
+}
+
+class GameConsoleView{
+    game: Game
+    get_move()
+    no_moves()
+    display_invalid_move()
+    display_options()
+    draw_board()
+    display_winner()
+}
+
+abstract class GameView{
+    game: Game
+    get_move()
+    no_moves()
+    display_invalid_move()
+    display_options()
+    draw_board()
+    display_winner()
+}
+Game *-- Player
+Game *-- Board
+BoardView *-- Board 
+GameView *-- Game
+BoardConsoleView *-- Board
+BoardConsoleView *-- Player
+BoardConsoleView <|--BoardView
+GameConsoleView *-- BoardConsoleView
+GameConsoleView *-- Game
+GameConsoleView <|-- GameView
+
+GameController *-- Game
+GameController *-- GameView
+
+@enduml
+
