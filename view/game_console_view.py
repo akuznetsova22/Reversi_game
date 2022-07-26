@@ -21,7 +21,8 @@ class GameConsoleView(GameView):
         row, col = int(s[0])-1, int(s[1])-1
         break
       except:
-        print('Coordinates should be two numbers, separated by comma. Try again')
+        print('Coordinates should be two numbers, \
+          separated by comma. Try again')
     return row, col
   
   def no_moves(self):
@@ -35,9 +36,10 @@ class GameConsoleView(GameView):
     print('This is not a valid move! Try again.')
 
   def display_options(self):
-    """Prints message asking whether they want a hint (possible moves)
+    """Prints message asking whether they want a hint 
     """
-    choice = input('Would you like to see possible moves? Enter Yes or No ')
+    choice = input('Would you like to see possible moves? \
+      Yes for hint, or No to continue ')
     return choice.lower()
   
   def draw_board(self):

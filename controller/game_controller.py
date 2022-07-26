@@ -16,6 +16,9 @@ class GameController:
         self.model.initialize_board()
         while True:
             self.view.draw_board()
+            print(self.model.select_best_move(self.model.curr_player))
+            self.view.draw_board()
+
             row, col = self.view.get_move(self.model.curr_player)
             while not self.model.is_valid_move(row, col, self.model.curr_player):
                 #check if the move isnt valid due to no possible moves left:

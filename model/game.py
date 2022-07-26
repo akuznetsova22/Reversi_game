@@ -17,7 +17,12 @@ class Game:
         self.board.mat[i][j] = player
         player = 3 - player
       player = 3 - player
-
+  # def copy_board(self):
+  #   board_copy = [[0] * self.board.size for _ in range(self.board.size)]
+  #   for row in range(self.board.size):
+  #     for col in range(self.board.size):
+  #       board_copy[row][col] = self.board[row][col]
+  #   return board_copy
   def change_player(self):
     """Switches the active player
     """
@@ -108,6 +113,33 @@ class Game:
           moves.append([row, col])
     return moves
   
+  def select_best_move(self, player):
+    """selects the best move available for player (1 turn look-ahead)
+    Args:
+        player (int): player number
+    Returns:
+        list: coordinates of the best move
+    """
+    moves = self.get_available_moves(player)  
+    score_moves = []
+    #for each valid move check updated scores for each player
+    #current scores are updated by 1 move + potential flips
+    for move in moves:
+      scores = self.keep_score() 
+      new_disks = 1 + len(self.is_valid_move(move[0], move[1], self.curr_player))
+      if player == Player.X:
+        scores['X'] += new_disks
+        scores['O'] -= (new_disks-1)
+        score_moves.append(scores['X']-scores['O'])
+      else:
+        scores['O'] += new_disks
+        scores['X'] -= (new_disks-1)
+        score_moves.append(scores['O']-scores['X'])
+    #Choosing the move that will result in more flipped disks
+    ind_best_move = score_moves.index(max(score_moves))
+    best_move = moves[ind_best_move]
+    return best_move
+
 
   def show_moves(self, player):
     """Gives coordinates of possible moves in a user-friendly way. 
