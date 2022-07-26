@@ -176,11 +176,11 @@ class Game:
       is_terminated = False
     else:
       moves_left=len(self.get_available_moves(self.curr_player))
-      if moves_left:
+      if moves_left>0:
         return False
       else:
         moves_left=len(self.get_available_moves(3-self.curr_player))
-        if moves_left:
+        if moves_left>0:
           return False  
     return is_terminated
   
@@ -193,9 +193,9 @@ class Game:
     player2_score = 0
     for i in range(self.board.size):
       for j in range(self.board.size):
-        if  self.board.mat[i][j] == Player.X:
+        if  self.board.mat[i][j] == 'X':
           player1_score += 1
-        elif self.board.mat[i][j] == Player.O:
+        elif self.board.mat[i][j] == 'O':
           player2_score += 1
     score_board = {'X': player1_score, 'O': player2_score}
     return score_board
@@ -210,7 +210,7 @@ class Game:
     if scores['X'] == scores['O']:
       winner = 'It was a draw'
     else:
-      winner = max(scores)
+      winner = max(scores.values())
     return winner 
 
 

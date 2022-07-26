@@ -24,6 +24,20 @@ class GameConsoleView(GameView):
         print('Coordinates should be two numbers, \
           separated by comma. Try again')
     return row, col
+  def get_move_with_AI(self):
+    """gets the move coordinates from the player
+    Args:
+        player (int): player
+    """
+    while True:
+      try:
+        s = input('Enter your move (row, col): ').split(',')
+        row, col = int(s[0])-1, int(s[1])-1
+        break
+      except:
+        print('Coordinates should be two numbers, \
+          separated by comma. Try again')
+    return row, col
   
   def no_moves(self):
     """Prints message to user if they have no moves left
@@ -38,8 +52,7 @@ class GameConsoleView(GameView):
   def display_options(self):
     """Prints message asking whether they want a hint 
     """
-    choice = input('Would you like to see possible moves? \
-      Yes for hint, or No to continue ')
+    choice = input('Would you like to see possible moves?\nYes for hint, or No to continue ')
     return choice.lower()
   
   def draw_board(self):
@@ -51,7 +64,16 @@ class GameConsoleView(GameView):
     """prints the winner of the game message
     """
     print(f'The winner is: {player}')
-  
-  
+
+  def menu(self):
+    while True:
+      try:
+        choice = int(input('Welcome to Reversi. Select mode:\n1: to play against another player, 2: to play against computer: '))
+        break
+      except TypeError:
+        print('Choose option 1 or 2')
+      return choice
+  def display_computer_move(self):
+    print('It is computer turn now. Thinking...')
   
   

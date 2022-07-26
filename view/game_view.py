@@ -11,6 +11,12 @@ class GameView(ABC):
   def get_move(self):
     pass
   @abstractmethod
+  def display_computer_move(self):
+    pass
+  @abstractmethod
+  def get_move_with_AI(self):
+    pass
+  @abstractmethod
   def no_moves(self):
     pass
   @abstractmethod
@@ -25,5 +31,6 @@ class GameView(ABC):
   @abstractmethod
   def display_winner(self, player):
     pass
-
-#Test
+  @abstractmethod
+  def menu(self):
+    pass

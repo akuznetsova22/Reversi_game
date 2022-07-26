@@ -6,8 +6,10 @@ from controller.game_controller import GameController
 model = Game(board_size=8)
 view = GameConsoleView(model)
 controller = GameController(view, model)
-
-controller.run_game()
+if controller.view.menu() == 1:
+    controller.run_game_pvp()
+else:
+    controller.run_game_AI()
 controller.save_winner()
 
     
