@@ -66,10 +66,11 @@ class GameController:
             else:
                 self.view.display_computer_move()
                 AI_move = self.model.select_best_move(self.model.curr_player)
-                self.model.make_move(AI_move[0], AI_move[1])
-                self.model.change_player()
+                if AI_move:
+                    self.model.make_move(AI_move[0], AI_move[1])
+                    self.model.change_player()
                 #terminate game if not moves left for both players
-                if self.model.is_terminated():
+                else:
                     break
         #checks the winner of the game
         player = self.model.check_winner()
@@ -87,4 +88,3 @@ class GameController:
             print(f'Date: {game_date}, Winner: {winner}, Scores: {scores}', file = f)
 
 
-#Test

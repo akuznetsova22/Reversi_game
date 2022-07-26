@@ -136,9 +136,12 @@ class Game:
         scores['X'] -= (new_disks-1)
         score_moves.append(scores['O']-scores['X'])
     #Choosing the move that will result in more flipped disks
-    ind_best_move = score_moves.index(max(score_moves))
-    best_move = moves[ind_best_move]
-    return best_move
+    if len(score_moves)>0:
+      ind_best_move = score_moves.index(max(score_moves))
+      best_move = moves[ind_best_move]
+      return best_move
+    else: 
+      return False
 
 
   def show_moves(self, player):
