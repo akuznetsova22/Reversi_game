@@ -164,6 +164,7 @@ class Game:
     is_terminated = True
     player1 = 0
     player2 =0
+    empty_cells = 0
     # Checks if no disks left for either player. 
     # Else: checks whether both players have moves left
     for i in range(self.board.size-1):
@@ -172,7 +173,9 @@ class Game:
           player1 +=1
         elif self.board.mat[i][j] == 3- self.curr_player:
           player2 +=1
-    if player1 > 0 and player2 > 0:
+        else:
+          empty_cells+=1
+    if player1 > 0 and player2 > 0 and empty_cells>0:
       is_terminated = False
     else:
       moves_left=len(self.get_available_moves(self.curr_player))
@@ -193,9 +196,9 @@ class Game:
     player2_score = 0
     for i in range(self.board.size):
       for j in range(self.board.size):
-        if  self.board.mat[i][j] == 'X':
+        if  self.board.mat[i][j] == Player.X:
           player1_score += 1
-        elif self.board.mat[i][j] == 'O':
+        elif self.board.mat[i][j] == Player.O:
           player2_score += 1
     score_board = {'X': player1_score, 'O': player2_score}
     return score_board
@@ -210,7 +213,11 @@ class Game:
     if scores['X'] == scores['O']:
       winner = 'It was a draw'
     else:
-      winner = max(scores.values())
+       winner_score = max(scores.values())
+    if scores['X'] == winner_score:
+        winner = 'X'
+    else:
+        winner = 'O'
     return winner 
 
 

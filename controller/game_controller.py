@@ -43,7 +43,7 @@ class GameController:
         """
         #creating the board with starting player positions and displaying it to the user   
         self.model.initialize_board()
-        while True:
+        while not self.model.is_terminated():
             self.view.draw_board()
             row, col = self.view.get_move_with_AI()
             while not self.model.is_valid_move(row, col, self.model.curr_player):
@@ -61,10 +61,10 @@ class GameController:
             self.model.make_move(row, col)
             self.model.change_player()
             self.view.draw_board()
-            self.view.display_computer_move()
             if self.model.is_terminated():
                 break
             else:
+                self.view.display_computer_move()
                 AI_move = self.model.select_best_move(self.model.curr_player)
                 self.model.make_move(AI_move[0], AI_move[1])
                 self.model.change_player()
