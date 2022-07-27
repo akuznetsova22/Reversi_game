@@ -1,28 +1,23 @@
 from model.board import Board
-from model.players import Player
+from model.players import HumanPlayer, AIPlayer
 
 class Game:
   """This is a Game class. Contains methods to run the game
   """
   def __init__(self, board_size):
     self.board = Board(board_size)
-    self.curr_player = Player.X
+    self.curr_player = HumanPlayer.X
   
   def initialize_board(self):
     """Placing starting 4 player disks on the centre of the board
     """
-    player = Player.X
+    player = HumanPlayer.X
     for i in range(self.board.size//2-1, self.board.size//2+1):
       for j in range(self.board.size//2-1, self.board.size//2+1):
         self.board.mat[i][j] = player
         player = 3 - player
       player = 3 - player
-  # def copy_board(self):
-  #   board_copy = [[0] * self.board.size for _ in range(self.board.size)]
-  #   for row in range(self.board.size):
-  #     for col in range(self.board.size):
-  #       board_copy[row][col] = self.board[row][col]
-  #   return board_copy
+
   def change_player(self):
     """Switches the active player
     """
@@ -128,7 +123,7 @@ class Game:
     for move in moves:
       scores = self.keep_score() 
       new_disks = 1 + len(self.is_valid_move(move[0], move[1], self.curr_player))
-      if player == Player.X:
+      if player == HumanPlayer.X:
         scores['X'] += new_disks
         scores['O'] -= (new_disks-1)
         score_moves.append(scores['X']-scores['O'])
@@ -200,9 +195,9 @@ class Game:
     player2_score = 0
     for i in range(self.board.size):
       for j in range(self.board.size):
-        if  self.board.mat[i][j] == Player.X:
+        if  self.board.mat[i][j] == HumanPlayer.X:
           player1_score += 1
-        elif self.board.mat[i][j] == Player.O:
+        elif self.board.mat[i][j] == HumanPlayer.O:
           player2_score += 1
     score_board = {'X': player1_score, 'O': player2_score}
     return score_board

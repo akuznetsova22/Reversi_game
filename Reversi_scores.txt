@@ -1,1 +1,1 @@
-Date: 2022-7-27  16:52, Winner: O, Scores: {'X': 12, 'O': 24}
+Date: 2022-7-27  18:58, Winner: X, Scores: {'X': 13, 'O': 12}

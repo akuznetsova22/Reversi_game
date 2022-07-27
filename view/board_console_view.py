@@ -1,6 +1,6 @@
 from view.board_view import BoardView
 from model.board import Board
-from model.players import Player
+from model.players import HumanPlayer, AIPlayer
 
 class BoardConsoleView(BoardView):
     """Board Console View class. Draws the gaming board

@@ -8,72 +8,51 @@ class GameController:
     def __init__(self, view: GameView, model: Game) -> None:
         self.view = view
         self.model = model
-
-    def run_game_pvp(self): 
-        """Runs the Reversi game player vs player
-        """
-        #creating the board with starting player positions and displaying it to the user   
-        self.model.initialize_board()
-        while True:
-            self.view.draw_board()
-            self.view.display_scores(self.model.keep_score())
-
-            #checks whether there are moves available to player
-            if len(self.model.get_available_moves(self.model.curr_player)) == 0:
-                self.view.no_moves()
-                self.model.change_player()
-            row, col = self.view.get_move(self.model.curr_player)
-            #gets move from the user until its valid
-            while not self.model.is_valid_move(row, col, self.model.curr_player):
-                self.view.display_invalid_move()
-                #offers a hint if the user enters invalid input
-                if self.view.display_options() == 'yes':
-                    print(self.model.show_moves(self.model.curr_player))
-                row, col = self.view.get_move(self.model.curr_player)
-            #makes the move and switches the player
-            self.model.make_move(row, col)
-            self.model.change_player()
-            #terminate game if not moves left for both players
-            if self.model.is_terminated():
-                break
-       
-    def run_game_simple_AI(self): 
-        """Runs the Reversi game with a simple AI
-        """
-        #creating the board with starting player positions and displaying it to the user   
+    def run_game(self):
+        game_mode = self.view.menu()
         self.model.initialize_board()
         while not self.model.is_terminated():
             self.view.draw_board()
             self.view.display_scores(self.model.keep_score())
-            row, col = self.view.get_move_with_AI()
+             
+            if len(self.model.get_available_moves(self.model.curr_player)) == 0:
+                self.view.no_moves()
+                self.model.change_player()
+            if  game_mode == 1:
+                row, col = self.view.get_move(self.model.curr_player)
+            else:
+                row, col = self.view.get_move_with_AI()
             while not self.model.is_valid_move(row, col, self.model.curr_player):
                 #check if the move isnt valid due to no possible moves left:
                 #if yes - switch to another player. if not - offer user a hint
-                if len(self.model.get_available_moves(self.model.curr_player)):
-                    self.view.display_invalid_move()
-                    if self.view.display_options() == 'yes':
-                        print(self.model.show_moves(self.model.curr_player))
-                    row, col = self.view.get_move_with_AI(self.model.curr_player)
+                self.view.display_invalid_move()
+                if self.view.display_options() == 'yes':
+                    print(self.model.show_moves(self.model.curr_player))
+                if game_mode == 1:
+                    row, col = self.view.get_move(self.model.curr_player)
                 else:
-                    self.view.no_moves()
-                    self.model.change_player()
+                    row, col = self.view.get_move_with_AI(self.model.curr_player)
+
             self.model.make_move(row, col)
             self.model.change_player()
-            self.view.draw_board()
-            self.view.display_scores(self.model.keep_score())
-
-            #terminate game if not moves left for both players
+            
+            #terminate game if not moves left for both players   
             if self.model.is_terminated():
+                self.view.draw_board()
+                self.view.display_scores(self.model.keep_score())
                 break
             else:
-                self.view.display_computer_move()
-                AI_move = self.model.select_best_move(self.model.curr_player)
-                if AI_move:
-                    self.model.make_move(AI_move[0], AI_move[1])
-                    self.model.change_player()
-                else:
-                    break
-        
+                if game_mode == 2:
+                    self.view.draw_board()
+                    self.view.display_computer_move()
+                    AI_move = self.model.select_best_move(self.model.curr_player)
+                    if AI_move:
+                        self.model.make_move(AI_move[0], AI_move[1])
+                        self.model.change_player()
+                    else:
+                        break
+            
+
     def save_winner(self):
         """Saves the information (date, winner, scores) about the game in a text file
         """
