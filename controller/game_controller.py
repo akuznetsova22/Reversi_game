@@ -16,6 +16,8 @@ class GameController:
         self.model.initialize_board()
         while True:
             self.view.draw_board()
+            self.view.display_scores(self.model.keep_score())
+
             #checks whether there are moves available to player
             if len(self.model.get_available_moves(self.model.curr_player)) == 0:
                 self.view.no_moves()
@@ -42,6 +44,7 @@ class GameController:
         self.model.initialize_board()
         while not self.model.is_terminated():
             self.view.draw_board()
+            self.view.display_scores(self.model.keep_score())
             row, col = self.view.get_move_with_AI()
             while not self.model.is_valid_move(row, col, self.model.curr_player):
                 #check if the move isnt valid due to no possible moves left:
@@ -57,6 +60,8 @@ class GameController:
             self.model.make_move(row, col)
             self.model.change_player()
             self.view.draw_board()
+            self.view.display_scores(self.model.keep_score())
+
             #terminate game if not moves left for both players
             if self.model.is_terminated():
                 break

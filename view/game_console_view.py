@@ -14,7 +14,11 @@ class GameConsoleView(GameView):
     Args:
         player (int): player
     """
-    print(f'Player {player}: It\'s your turn.')
+    if player == 1:
+      curr_player = 'X'
+    else:
+      curr_player = 'O'
+    print(f'Player {curr_player}: It\'s your turn.')
     while True:
       try:
         s = input('Enter your move (row, col): ').split(',')
@@ -84,6 +88,9 @@ class GameConsoleView(GameView):
     Args:
         scores (dict): scores of the players
     """
-    print(f'Scores: {scores}')
+    player1 = scores['X']
+    player2 = scores['O']
+    print(f'X score: {player1}, O score: {player2}')
+    print()
 
   
