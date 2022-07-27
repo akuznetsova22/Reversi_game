@@ -2,8 +2,10 @@
 class GameController{
     view: GameView
     model: Game
-    run_game()
+    run_game_pvp()
+    run_game_simple_AI()
     save_winner()
+    end_game()
 }
 class Board{
     size: int
@@ -18,6 +20,7 @@ class Game{
     is_valid_coordinates()
     is_valid_move()
     get_available_moves()
+    select_best_move()
     show_moves()
     is_terminated()
     keep_score()
@@ -39,21 +42,29 @@ abstract class BoardView{
 class GameConsoleView{
     game: Game
     get_move()
+    get_move_with_AI()
     no_moves()
     display_invalid_move()
     display_options()
     draw_board()
     display_winner()
+    menu()
+    display_computer_move()
+    display_scores()
 }
 
 abstract class GameView{
     game: Game
     get_move()
+    display_computer_move()
+    get_move_with_AI()
     no_moves()
     display_invalid_move()
     display_options()
     draw_board()
     display_winner()
+    menu()
+    display_scores()
 }
 Game *-- Player
 Game *-- Board

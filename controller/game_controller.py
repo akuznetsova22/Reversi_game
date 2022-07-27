@@ -50,7 +50,7 @@ class GameController:
                     self.view.display_invalid_move()
                     if self.view.display_options() == 'yes':
                         print(self.model.show_moves(self.model.curr_player))
-                    row, col = self.view.get_move(self.model.curr_player)
+                    row, col = self.view.get_move_with_AI(self.model.curr_player)
                 else:
                     self.view.no_moves()
                     self.model.change_player()
