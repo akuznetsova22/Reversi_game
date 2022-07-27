@@ -69,7 +69,7 @@ class GameConsoleView(GameView):
     while True:
       try:
         choice = int(input('Welcome to Reversi. Select mode:\n1: to play against another player, 2: to play against computer: '))
-        break
+        return choice
       except TypeError:
         print('Choose option 1 or 2')
       return choice
@@ -78,4 +78,12 @@ class GameConsoleView(GameView):
     """
     print('It is computer turn now. Thinking...')
   
+  def display_scores(self, scores):
+    """displays scores of the game
+
+    Args:
+        scores (dict): scores of the players
+    """
+    print(f'Scores: {scores}')
+
   

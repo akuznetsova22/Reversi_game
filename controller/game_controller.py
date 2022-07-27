@@ -16,29 +16,26 @@ class GameController:
         self.model.initialize_board()
         while True:
             self.view.draw_board()
+            #checks whether there are moves available to player
+            if len(self.model.get_available_moves(self.model.curr_player)) == 0:
+                self.view.no_moves()
+                self.model.change_player()
             row, col = self.view.get_move(self.model.curr_player)
+            #gets move from the user until its valid
             while not self.model.is_valid_move(row, col, self.model.curr_player):
-                #check if the move isnt valid due to no possible moves left:
-                #if yes - switch to another player. if not - offer user a hint
-                if len(self.model.get_available_moves(self.model.curr_player)):
-                    self.view.display_invalid_move()
-                    if self.view.display_options() == 'yes':
-                        print(self.model.show_moves(self.model.curr_player))
-                    row, col = self.view.get_move(self.model.curr_player)
-                else:
-                    self.view.no_moves()
-                    self.model.change_player()
-                    self.view.get_move(self.model.curr_player)
+                self.view.display_invalid_move()
+                #offers a hint if the user enters invalid input
+                if self.view.display_options() == 'yes':
+                    print(self.model.show_moves(self.model.curr_player))
+                row, col = self.view.get_move(self.model.curr_player)
+            #makes the move and switches the player
             self.model.make_move(row, col)
             self.model.change_player()
             #terminate game if not moves left for both players
             if self.model.is_terminated():
                 break
-        #checks the winner of the game
-        player = self.model.check_winner()
-        if player:
-            self.view.display_winner(player)
-    def run_game_AI(self): 
+       
+    def run_game_simple_AI(self): 
         """Runs the Reversi game with a simple AI
         """
         #creating the board with starting player positions and displaying it to the user   
@@ -57,7 +54,6 @@ class GameController:
                 else:
                     self.view.no_moves()
                     self.model.change_player()
-                    self.view.get_move(self.model.curr_player)
             self.model.make_move(row, col)
             self.model.change_player()
             self.view.draw_board()
@@ -72,11 +68,7 @@ class GameController:
                     self.model.change_player()
                 else:
                     break
-        #checks the winner of the game
-        player = self.model.check_winner()
-        if player:
-            self.view.display_winner(player)
-    
+        
     def save_winner(self):
         """Saves the information (date, winner, scores) about the game in a text file
         """
@@ -87,4 +79,12 @@ class GameController:
         with open('Reversi_scores.txt', 'w') as f:
             print(f'Date: {game_date}, Winner: {winner}, Scores: {scores}', file = f)
 
-
+    def end_game(self):
+        #checks, displays and saves winner and scores of the game
+        self.view.draw_board()
+        player = self.model.check_winner()
+        if player:
+            self.view.display_winner(player)
+        scores = self.model.keep_score()
+        self.view.display_scores(scores)
+        self.save_winner()

@@ -34,3 +34,6 @@ class GameView(ABC):
   @abstractmethod
   def menu(self):
     pass
+  @abstractmethod
+  def display_scores(self):
+    pass
