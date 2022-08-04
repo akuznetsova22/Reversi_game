@@ -1,4 +1,5 @@
 from pickle import EMPTY_DICT
+import copy
 
 
 class Board:
@@ -31,5 +32,7 @@ class Board:
     self.mat[row][col] = player
   
 
-
+  def copy_board(self):
+    copy_board = copy.deepcopy(self.mat)
+    return copy_board
 

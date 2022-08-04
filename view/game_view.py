@@ -10,30 +10,39 @@ class GameView(ABC):
   @abstractmethod
   def get_move(self):
     pass
+
   @abstractmethod
   def display_computer_move(self):
     pass
+
   @abstractmethod
   def get_move_with_AI(self):
     pass
+
   @abstractmethod
   def no_moves(self):
     pass
+
   @abstractmethod
   def display_invalid_move(self):
     pass
+
   @abstractmethod
   def draw_board(self):
     pass
+
   @abstractmethod
   def display_options(self):
     pass
+
   @abstractmethod
   def display_winner(self, player):
     pass
+
   @abstractmethod
   def menu(self):
     pass
+  
   @abstractmethod
   def display_scores(self):
     pass

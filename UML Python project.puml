@@ -2,8 +2,7 @@
 class GameController{
     view: GameView
     model: Game
-    run_game_pvp()
-    run_game_simple_AI()
+    run_game()
     save_winner()
     end_game()
 }
@@ -11,20 +10,30 @@ class Board{
     size: int
     get_cell()
     update_cell()
+    copy_board()
+
 }
 class Game{
     board_size: int
     initialize_board()
     change_player()
     make_move()
-    is_valid_coordinates()
-    is_valid_move()
+    select_move_serious_AI()
+    minimax()
     get_available_moves()
     select_best_move()
     show_moves()
     is_terminated()
     keep_score()
+    weighted_scores()
+    calculate_utility()
     check_winner()
+}
+class Moves{
+    board: Board
+    curr_player: Player
+    is_valid_coordinates()
+    is_valid_move()
 }
 enum Player{
 }
@@ -68,6 +77,9 @@ abstract class GameView{
 }
 Game *-- Player
 Game *-- Board
+Game *-- Moves
+Moves *-- Board
+Moves *-- Player
 BoardView *-- Board 
 GameView *-- Game
 BoardConsoleView *-- Board

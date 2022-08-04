@@ -38,60 +38,6 @@ class Game(Move):
       for row, col in available_flips:
         self.board.update_cell(row, col, self.curr_player)
 
-  # def is_valid_coordinates(self, row, col):
-  #   """Checks whether coordinates are within the board size
-  #   Args:
-  #       row (int): x coordinate
-  #       col (_type_): y coordinate
-  #   Returns:
-  #       bool: True if the coordinates are < the board size and >= 0
-  #   """
-  #   return row >= 0 and row <= self.board.size-1 and col >= 0 and col <= self.board.size-1
-  
-  # def is_valid_move(self, row, col, player):
-  #   """  #Checks validity of coordinates.
-  #   Args:
-  #       row (_type_): _description_
-  #       col (_type_): _description_
-  #       player (_type_): _description_
-  #   Returns:
-  #       bool: returns False if the move is invalid
-  #       list: returns the coordinates of all possible disks to flip if the move is valid
-  #   """
-  #   #Checking if coordinates are on board and contain no players disks
-  #   if self.board.mat[row][col] != Board.EMPTY_CELL or not self.is_valid_coordinates(row,col):
-  #     return False
-  #   #Temporary placing player and checking if other player disks can be flipped
-  #   self.board.mat[row][col] = player
-  #   possible_flips = []
-  #   directions = [[0, 1], [1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1]]
-  #   for i, j in directions:
-  #     new_row, new_col = row, col
-  #     new_row += i 
-  #     new_col += j
-  #     if self.is_valid_coordinates(new_row,new_col) and self.board.mat[new_row][new_col] == 3-player:
-  #       new_row += i
-  #       new_col += j
-
-  #       while self.is_valid_coordinates(new_row, new_col) and self.board.mat[new_row][new_col] == 3-player:
-  #         new_row += i
-  #         new_col += j
-  #       if not self.is_valid_coordinates(new_row, new_col):
-  #         continue
-  #       if self.board.mat[new_row][new_col] == player:
-  #         while True:
-  #           new_row -= i
-  #           new_col -= j
-  #           if new_row == row and new_col == col:
-  #             break
-  #           possible_flips.append([new_row, new_col])
-  #   #Restoring the initial empty cell
-  #   self.board.mat[row][col]= Board.EMPTY_CELL 
-  #   # Returns false if no opponent disks to be flipped are found.
-  #   # if found - returns list of disks coordinates
-  #   if not len(possible_flips): 
-  #     return False
-  #   return possible_flips
   
   def get_available_moves(self, player):
     """ Lists all possible moves for the player. Used to give player a hint
@@ -138,51 +84,10 @@ class Game(Move):
     else: 
       return False
 
-  # def minimax_max(self, board, player, depth):
-
-  #   moves=self.get_available_moves(player)
-  #   best_move = None
-  #   best_utility = None
-    
-  #   potential_moves = {}
-  #   for move in moves:
-  #     potential_moves[(move[0],move[1])] = self.board.update_cell(move[0], move[1], player)
-
-  #   if len(moves):
-  #     if depth == 1:
-  #       for move, i in potential_moves.items():
-  #         if best_move == None or best_utility < self.minimax_min(i, player, depth+1):
-  #           best_move = move
-  #           best_utility = self.minimax_min(i, player, depth+1)
-  #       return best_move
-  #     for move, i in potential_moves.items():
-  #       if best_move == None or best_utility < self.minimax_min(i, player, (depth+1)):
-  #         best_utility = self.minimax_min(i, player, (depth +1))
-  #       return best_utility
-  #   return self.calculate_utility(player)
-
-  # def minimax_min(self, board, player, depth):
-  #   moves=self.get_available_moves(3-player)
-  #   best_move = None
-  #   best_utility = None
-  #   potential_moves = {}
-  #   for move in moves:
-  #     potential_moves[(move[0],move[1])] = self.board.update_cell(move[0], move[1], 3-player) 
-  #   if len(moves):
-  #     if depth <= 3:
-  #       for move, i in potential_moves.items():
-  #         if best_move == None or best_utility > self.minimax_max(i, player, (depth +1)):
-  #           best_move = move
-  #           best_utility = self.minimax_max(i, player, (depth +1))
-  #       return best_move
-  #     for move, i in potential_moves.items():
-  #       if best_move == None or best_utility > self.calculate_utility(player):
-  #         best_utility = self.calculate_utility(player)
-  #       return best_utility
-  #   return self.calculate_utility(player)
-  def copy_board(self):
-    copy_board = copy.deepcopy(self.board.mat)
-    return copy_board
+  
+  # def copy_board(self):
+  #   copy_board = copy.deepcopy(self.board.mat)
+  #   return copy_board
 
   def select_move_serious_AI(self):
     """Functions implements minimax algorithm to compute the best move for the AI player
@@ -190,7 +95,7 @@ class Game(Move):
     moves = self.get_available_moves(self.curr_player)
     board_values = []
     for move in moves:
-      new_board = self.copy_board()
+      new_board = self.board.copy_board()
       board_values.append(self.minimax(new_board, self.curr_player, 3-self.curr_player))
     if len(board_values):
       best_value = max(board_values)

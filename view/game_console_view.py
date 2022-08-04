@@ -28,6 +28,7 @@ class GameConsoleView(GameView):
         print('Coordinates should be two numbers, \
           separated by comma. Try again')
     return row, col
+  
   def get_move_with_AI(self):
     """gets the move coordinates from the player
     """
