@@ -1,6 +1,7 @@
 from model.board import Board
 from model.players import HumanPlayer, AIPlayer
 from model.moves import Move
+import copy
 
 class Game(Move):
   """This is a Game class. Contains methods to run the game
@@ -137,7 +138,92 @@ class Game(Move):
     else: 
       return False
 
+  # def minimax_max(self, board, player, depth):
 
+  #   moves=self.get_available_moves(player)
+  #   best_move = None
+  #   best_utility = None
+    
+  #   potential_moves = {}
+  #   for move in moves:
+  #     potential_moves[(move[0],move[1])] = self.board.update_cell(move[0], move[1], player)
+
+  #   if len(moves):
+  #     if depth == 1:
+  #       for move, i in potential_moves.items():
+  #         if best_move == None or best_utility < self.minimax_min(i, player, depth+1):
+  #           best_move = move
+  #           best_utility = self.minimax_min(i, player, depth+1)
+  #       return best_move
+  #     for move, i in potential_moves.items():
+  #       if best_move == None or best_utility < self.minimax_min(i, player, (depth+1)):
+  #         best_utility = self.minimax_min(i, player, (depth +1))
+  #       return best_utility
+  #   return self.calculate_utility(player)
+
+  # def minimax_min(self, board, player, depth):
+  #   moves=self.get_available_moves(3-player)
+  #   best_move = None
+  #   best_utility = None
+  #   potential_moves = {}
+  #   for move in moves:
+  #     potential_moves[(move[0],move[1])] = self.board.update_cell(move[0], move[1], 3-player) 
+  #   if len(moves):
+  #     if depth <= 3:
+  #       for move, i in potential_moves.items():
+  #         if best_move == None or best_utility > self.minimax_max(i, player, (depth +1)):
+  #           best_move = move
+  #           best_utility = self.minimax_max(i, player, (depth +1))
+  #       return best_move
+  #     for move, i in potential_moves.items():
+  #       if best_move == None or best_utility > self.calculate_utility(player):
+  #         best_utility = self.calculate_utility(player)
+  #       return best_utility
+  #   return self.calculate_utility(player)
+  def copy_board(self):
+    copy_board = copy.deepcopy(self.board.mat)
+    return copy_board
+
+  def select_move_serious_AI(self):
+    """Functions implements minimax algorithm to compute the best move for the AI player
+    """
+    moves = self.get_available_moves(self.curr_player)
+    board_values = []
+    for move in moves:
+      new_board = self.copy_board()
+      board_values.append(self.minimax(new_board, self.curr_player, 3-self.curr_player))
+    if len(board_values):
+      best_value = max(board_values)
+      ind = 0
+      for i in range(len(board_values)):
+        if board_values[i] == best_value:
+          ind = i
+          break
+      best_move = moves[ind]
+    else:
+      best_move = moves[0]
+    return best_move
+
+
+  def minimax(self, board, max_player, min_player):
+    """Function recursively calculates the best move on the current board for given player
+    Returns:
+        list: coordinates of the best move
+    """
+    if self.is_terminated:
+      return self.calculate_utility(HumanPlayer.O)
+    moves = self.get_available_moves()
+    move_scores = []
+    for move in moves:
+      new_board = self.copy_board()
+      new_board[move[0]][move[1]] = HumanPlayer.O
+      board_value = self.minimax(new_board, min_player, max_player)
+      move_scores.append(board_value)
+    if HumanPlayer.O == max_player:
+      return max(move_scores)
+    elif HumanPlayer.X == max_player:
+      return min(move_scores)
+  
   def show_moves(self, player):
     """Gives coordinates of possible moves in a user-friendly way. 
     Coordinates start from 1, not 0
@@ -199,7 +285,57 @@ class Game(Move):
           player2_score += 1
     score_board = {'X': player1_score, 'O': player2_score}
     return score_board
- 
+  
+  def weighted_scores(self):
+    """Assignes weights to the board cells, based on their advantage to player and calculates scores
+
+    Returns:
+        dict: weighted scores of players disks
+    """
+    cell_scores = [[1] * self.board.size for _ in range(self.board.size)]
+    
+    for i in range(1,self.board.size-1):
+      for j in range(1,self.board.size-1):
+        cell_scores[i][0] = 10
+        cell_scores[i][self.board.size-1] = 10
+        cell_scores[0][j] = 10
+        cell_scores[self.board.size-1][j] = 10
+    cell_scores[0][0] = 100
+    cell_scores[0][self.board.size-1] = 100
+    cell_scores[self.board.size-1][0] = 100
+    cell_scores[self.board.size-1][self.board.size-1] = 100
+    cell_scores[1][0]= -10
+    cell_scores[1][self.board.size-1] = -10
+    cell_scores[self.board.size-2][0] = -10
+    cell_scores[self.board.size-2][self.board.size-1] = -10
+    cell_scores[0][self.board.size-2] = -10
+    cell_scores[0][1] = -10
+    cell_scores[self.board.size-1][1] = -10
+    cell_scores[self.board.size-1][self.board.size-2] = -10  
+
+    player1_score = 0
+    player2_score = 0
+
+    for i in range(self.board.size):
+      for j in range(self.board.size):
+        if  self.board.mat[i][j] == HumanPlayer.X:
+          player1_score += cell_scores[i][j]
+        elif self.board.mat[i][j] == HumanPlayer.O:
+          player2_score += cell_scores[i][j]
+    weighted_scores = {'X_weighted': player1_score, 'O_weighted': player2_score}
+    return weighted_scores
+  
+  def calculate_utility(self, player):
+    """Function calculates the utility for a given player
+    """
+    X_score = self.weighted_scores()['X_weighted']
+    O_score = self.weighted_scores()['O_weighted']
+    if player == HumanPlayer.X:
+      utility = X_score-O_score
+    else:
+      utility = O_score - X_score
+    return utility
+
   def check_winner(self):
     """Checks the winner of the game
 
@@ -217,5 +353,7 @@ class Game(Move):
         winner = 'O'
     return winner 
 
+  
+    
 
     

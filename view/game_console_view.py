@@ -37,14 +37,13 @@ class GameConsoleView(GameView):
         row, col = int(s[0])-1, int(s[1])-1
         break
       except:
-        print('Coordinates should be two numbers, \
-          separated by comma. Try again')
+        print('Coordinates should be two numbers,\nseparated by comma. Try again')
     return row, col
   
-  def no_moves(self):
+  def no_moves(self, player):
     """Prints message to user if they have no moves left
     """
-    print('You ran out of moves.')
+    print(f'Player {player}, you ran out of moves.')
   
   def display_invalid_move(self):
     """Prints message to user if the move is invalid
@@ -65,14 +64,14 @@ class GameConsoleView(GameView):
   def display_winner(self, player):
     """prints the winner of the game message
     """
-    print(f'The winner is: {player}')
+    print(f'Game Over! The winner is: {player}')
 
   def menu(self):
     """inputs users choice of game mode. PvP or simple AI
     """
     while True:
       try:
-        choice = int(input('Welcome to Reversi. Select mode:\n1: to play against another player, 2: to play against computer: '))
+        choice = int(input('Welcome to Reversi. Select mode:\n1: to play against another player, 2: to play against simple computer, 3: to play against hardcore AI:  '))
         return choice
       except TypeError:
         print('Choose option 1 or 2')
