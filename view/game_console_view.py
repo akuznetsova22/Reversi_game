@@ -71,14 +71,14 @@ class GameConsoleView(GameView):
     """
     while True:
       try:
-        choice = int(input('Welcome to Reversi. Select mode:\n1: to play against another player, 2: to play against simple computer, 3: to play against hardcore AI:  '))              
-        if choice in range (1,4):
+        choice = int(input('Welcome to Reversi. Select mode:\n1: to play against another player, 2: to play against simple computer, 3: to play against advanced computer, 4: to play against hardcore AI:  '))              
+        if choice in range (1,5):
           return choice
         else:
-          print('Please choose option 1, 2 or 3')
-          choice = int(input('1: to play against another player, 2: to play against simple computer, 3: to play against hardcore AI:  '))
+          print('Please choose option 1, 2, 3 or 4')
+          choice = int(input('1: to play against another player, 2: to play against simple computer, 3: to play against advanced computer, 4: to play against hardcore AI:  '))
       except ValueError:
-        print('Please choose option 1, 2 or 3')
+        print('Please choose option 1, 2, 3 or 4')
         # choice = int(input('1: to play against another player, 2: to play against simple computer, 3: to play against hardcore AI:  '))
 
 

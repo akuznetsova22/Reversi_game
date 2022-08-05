@@ -39,9 +39,9 @@ class GameController:
                 self.view.display_computer_move()
                 if game_mode == 2:
                     AI_move = self.model.select_best_move(self.model.curr_player)
-                elif game_mode == 3:
+                elif game_mode == 3 or game_mode == 4:
                     if self.model.get_available_moves(self.model.curr_player):
-                        AI_move = self.model.select_move_serious_AI()
+                        AI_move = self.model.select_move_serious_AI(game_mode)
                 #if moves available - make the move and switch to human player.
                 if AI_move:
                     self.model.make_move(AI_move[0], AI_move[1])
@@ -58,8 +58,8 @@ class GameController:
         scores = self.model.keep_score()
         date = datetime.now()
         game_date = f'{date.year}-{date.month}-{date.day}  {date.hour}:{date.minute}'
-        with open('Reversi_scores.txt', 'w') as f:
-            print(f'Date: {game_date}, Winner: {winner}, Scores: {scores}', file = f)
+        with open('Reversi_scores.txt', 'a') as f:
+            print(f'Date: {game_date}, Winner: {winner}, Scores: {scores}', file = f, end=('\n'))
 
     def end_game(self):
         #checks, displays and saves winner and scores of the game

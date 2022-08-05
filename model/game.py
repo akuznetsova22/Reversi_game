@@ -27,7 +27,7 @@ class Game(Move):
         self.curr_player = HumanPlayer.O
       else:
         self.curr_player = HumanPlayer.X
-    elif mode == 2 or mode == 3:
+    elif mode == 2 or mode == 3 or mode == 4:
       if self.curr_player == HumanPlayer.X:
         self.curr_player = AIPlayer.O
       else:
@@ -94,14 +94,14 @@ class Game(Move):
 
 
 
-  def select_move_serious_AI(self):
+  def select_move_serious_AI(self, game_mode):
     """Functions implements minimax algorithm to compute the best move for the AI player
     """
     moves = self.get_available_moves(AIPlayer.O)
     board_values = []
     for move in moves:
       new_board = self.board.copy_board()
-      board_values.append(self.minimax(new_board, AIPlayer.O, HumanPlayer.X))
+      board_values.append(self.minimax(new_board, AIPlayer.O, HumanPlayer.X, game_mode))
     if len(board_values):
       best_value = max(board_values)
       ind = 0
@@ -115,19 +115,22 @@ class Game(Move):
     return best_move
 
 
-  def minimax(self, board, max_player, min_player):
+  def minimax(self, board, max_player, min_player, game_mode):
     """Function recursively calculates the best move on the current board for given player
     Returns:
         list: coordinates of the best move
     """
-    if self.is_terminated:
+    if self.is_terminated and game_mode==4:
       return self.calculate_utility(HumanPlayer.O)
+    elif self.is_terminated and game_mode == 3:
+      return self.calculate_utility_easy_mode(HumanPlayer.O)
+
     moves = self.get_available_moves()
     move_scores = []
     for move in moves:
       new_board = self.copy_board()
       new_board[move[0]][move[1]] = HumanPlayer.O
-      board_value = self.minimax(new_board, min_player, max_player)
+      board_value = self.minimax(new_board, min_player, max_player, game_mode)
       move_scores.append(board_value)
     if AIPlayer.O == max_player:
       return max(move_scores)
@@ -246,6 +249,26 @@ class Game(Move):
       utility = O_score - X_score
     return utility
 
+  def calculate_utility_easy_mode(self, player):
+    """Function calculates the utility for a given player
+    """
+    X_score = self.keep_score()['X']
+    O_score = self.keep_score()['O']
+    if player == HumanPlayer.X:
+      if X_score-O_score >0:
+        utility =  1
+      elif X_score-O_score == 0:
+        utility =  0
+      else: 
+        utility=  -1
+    if player == AIPlayer.O:
+      if O_score-X_score >0:
+        utility = 1
+      elif O_score-X_score == 0:
+        utility = 0
+      else: 
+        utility = -1
+    return utility
   def check_winner(self):
     """Checks the winner of the game
 
