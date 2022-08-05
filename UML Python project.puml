@@ -27,6 +27,7 @@ class Game{
     keep_score()
     weighted_scores()
     calculate_utility()
+    calculate_utility_easy_mode()
     check_winner()
 }
 class Moves{
@@ -53,7 +54,6 @@ abstract class BoardView{
 class GameConsoleView{
     game: Game
     get_move()
-    get_move_with_AI()
     no_moves()
     display_invalid_move()
     display_options()
@@ -68,7 +68,6 @@ abstract class GameView{
     game: Game
     get_move()
     display_computer_move()
-    get_move_with_AI()
     no_moves()
     display_invalid_move()
     display_options()
@@ -84,7 +83,7 @@ Game *-- Moves
 Moves *-- Board
 Moves *-- HumanPlayer
 Moves *--AIPlayer
-BoardView *-- Board 
+BoardView *-- Board
 GameView *-- Game
 BoardConsoleView *-- Board
 BoardConsoleView *--HumanPlayer
