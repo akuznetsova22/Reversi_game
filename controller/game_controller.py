@@ -57,15 +57,7 @@ class GameController:
                         self.model.change_player()
                     else:
                         break
-                # elif game_mode == 3:
-                #     self.view.draw_board()
-                #     self.view.display_computer_move()
-                    # if self.model.get_available_moves(self.model.curr_player):
-                    #     AI_move = self.model.select_move_serious_AI()
-                    #     self.model.make_move(AI_move[0], AI_move[1])
-                    #     self.model.change_player()
-                    # else:
-                    #     break
+
  
 
     def save_winner(self):

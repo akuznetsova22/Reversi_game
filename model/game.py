@@ -1,7 +1,6 @@
 from model.board import Board
 from model.players import HumanPlayer, AIPlayer
 from model.moves import Move
-import copy
 
 class Game(Move):
   """This is a Game class. Contains methods to run the game
@@ -23,8 +22,18 @@ class Game(Move):
   def change_player(self):
     """Switches the active player
     """
+    # if game_mode == 1:
+    #   if self.curr_player == HumanPlayer.X:
+    #     self.curr_player = HumanPlayer.O
+    #   else:
+    #     self.curr_player = HumanPlayer.X
+    # elif game_mode == 2 or game_mode == 3:
+    #   if self.curr_player == HumanPlayer.X:
+    #     self.curr_player = AIPlayer.O
+    #   else:
+    #     self.curr_player == HumanPlayer.X
     self.curr_player = 3 - self.curr_player
-    
+
   def make_move(self, row, col):
     """Updates the given board cell with players disk \
       if the move is valid and flips the opponents disks in between
@@ -84,10 +93,7 @@ class Game(Move):
     else: 
       return False
 
-  
-  # def copy_board(self):
-  #   copy_board = copy.deepcopy(self.board.mat)
-  #   return copy_board
+
 
   def select_move_serious_AI(self):
     """Functions implements minimax algorithm to compute the best move for the AI player
