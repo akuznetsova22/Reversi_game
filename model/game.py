@@ -19,20 +19,19 @@ class Game(Move):
         player = 3 - player
       player = 3 - player
 
-  def change_player(self):
+  def change_player(self, mode):
     """Switches the active player
     """
-    # if game_mode == 1:
-    #   if self.curr_player == HumanPlayer.X:
-    #     self.curr_player = HumanPlayer.O
-    #   else:
-    #     self.curr_player = HumanPlayer.X
-    # elif game_mode == 2 or game_mode == 3:
-    #   if self.curr_player == HumanPlayer.X:
-    #     self.curr_player = AIPlayer.O
-    #   else:
-    #     self.curr_player == HumanPlayer.X
-    self.curr_player = 3 - self.curr_player
+    if mode == 1:
+      if self.curr_player == HumanPlayer.X:
+        self.curr_player = HumanPlayer.O
+      else:
+        self.curr_player = HumanPlayer.X
+    elif mode == 2 or mode == 3:
+      if self.curr_player == HumanPlayer.X:
+        self.curr_player = AIPlayer.O
+      else:
+        self.curr_player = HumanPlayer.X
 
   def make_move(self, row, col):
     """Updates the given board cell with players disk \
@@ -98,11 +97,11 @@ class Game(Move):
   def select_move_serious_AI(self):
     """Functions implements minimax algorithm to compute the best move for the AI player
     """
-    moves = self.get_available_moves(self.curr_player)
+    moves = self.get_available_moves(AIPlayer.O)
     board_values = []
     for move in moves:
       new_board = self.board.copy_board()
-      board_values.append(self.minimax(new_board, self.curr_player, 3-self.curr_player))
+      board_values.append(self.minimax(new_board, AIPlayer.O, HumanPlayer.X))
     if len(board_values):
       best_value = max(board_values)
       ind = 0
@@ -130,9 +129,9 @@ class Game(Move):
       new_board[move[0]][move[1]] = HumanPlayer.O
       board_value = self.minimax(new_board, min_player, max_player)
       move_scores.append(board_value)
-    if HumanPlayer.O == max_player:
+    if AIPlayer.O == max_player:
       return max(move_scores)
-    elif HumanPlayer.X == max_player:
+    elif AIPlayer.O == min_player:
       return min(move_scores)
   
   def show_moves(self, player):
@@ -231,7 +230,7 @@ class Game(Move):
       for j in range(self.board.size):
         if  self.board.mat[i][j] == HumanPlayer.X:
           player1_score += cell_scores[i][j]
-        elif self.board.mat[i][j] == HumanPlayer.O:
+        elif self.board.mat[i][j] == AIPlayer.O:
           player2_score += cell_scores[i][j]
     weighted_scores = {'X_weighted': player1_score, 'O_weighted': player2_score}
     return weighted_scores

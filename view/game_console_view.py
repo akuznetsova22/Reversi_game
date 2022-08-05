@@ -25,8 +25,7 @@ class GameConsoleView(GameView):
         row, col = int(s[0])-1, int(s[1])-1
         break
       except:
-        print('Coordinates should be two numbers, \
-          separated by comma. Try again')
+        print('Coordinates should be two numbers, separated by comma. Try again')
     return row, col
   
   def get_move_with_AI(self):
@@ -38,7 +37,7 @@ class GameConsoleView(GameView):
         row, col = int(s[0])-1, int(s[1])-1
         break
       except:
-        print('Coordinates should be two numbers,\nseparated by comma. Try again')
+        print('Coordinates should be two numbers, separated by comma. Try again')
     return row, col
   
   def no_moves(self, player):
@@ -72,11 +71,18 @@ class GameConsoleView(GameView):
     """
     while True:
       try:
-        choice = int(input('Welcome to Reversi. Select mode:\n1: to play against another player, 2: to play against simple computer, 3: to play against hardcore AI:  '))
-        return choice
-      except TypeError:
-        print('Choose option 1 or 2')
-      return choice
+        choice = int(input('Welcome to Reversi. Select mode:\n1: to play against another player, 2: to play against simple computer, 3: to play against hardcore AI:  '))              
+        if choice in range (1,4):
+          return choice
+        else:
+          print('Please choose option 1, 2 or 3')
+          choice = int(input('1: to play against another player, 2: to play against simple computer, 3: to play against hardcore AI:  '))
+      except ValueError:
+        print('Please choose option 1, 2 or 3')
+        # choice = int(input('1: to play against another player, 2: to play against simple computer, 3: to play against hardcore AI:  '))
+
+
+  
   def display_computer_move(self):
     """prints message about computers turn
     """

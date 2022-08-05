@@ -14,49 +14,40 @@ class GameController:
         game_mode = self.view.menu()
         self.model.initialize_board()
         while not self.model.is_terminated():
+            #printing updated board with scores
             self.view.draw_board()
             self.view.display_scores(self.model.keep_score())
-            #If moves available - get move
+            #If moves available for current player - get move
             if len(self.model.get_available_moves(self.model.curr_player)):    
                 row, col = self.view.get_move(self.model.curr_player)
                 while not self.model.is_valid_move(row, col, self.model.curr_player):
-                    #check if the move isnt valid due to no possible moves left:
-                    #if yes - switch to another player. if not - offer user a hint
+                    #offer user a hint in case of invalid input
                     self.view.display_invalid_move()
                     if self.view.display_options() == 'yes':
                         print(self.model.show_moves(self.model.curr_player))
-                    if game_mode == 1:
-                        row, col = self.view.get_move(self.model.curr_player)
-                    else:
-                        row, col = self.view.get_move_with_AI()
-
+                    row, col = self.view.get_move(self.model.curr_player)
+                #when input is valid - make the move and switch another player
                 self.model.make_move(row, col)
-                self.model.change_player()
+                self.model.change_player(game_mode)
             #Switches player if no available moves left. 
             else:
                 self.view.no_moves(self.model.curr_player)
-                self.model.change_player()
-            
-            #Terminate game if not moves left for both players   
-            if self.model.is_terminated():
+                self.model.change_player(game_mode)
+            #in case of computer mode, make computer move:
+            if game_mode != 1:
                 self.view.draw_board()
-                self.view.display_scores(self.model.keep_score())
-                break
-            else: 
-            #Get move from the computer based on the chosen game mode
-                if game_mode == 2 or game_mode == 3:
-                    self.view.draw_board()
-                    self.view.display_computer_move()
-                    if game_mode == 2:
-                        AI_move = self.model.select_best_move(self.model.curr_player)
-                    elif game_mode == 3:
-                        if self.model.get_available_moves(self.model.curr_player):
-                            AI_move = self.model.select_move_serious_AI()
-                    if AI_move:
-                        self.model.make_move(AI_move[0], AI_move[1])
-                        self.model.change_player()
-                    else:
-                        break
+                self.view.display_computer_move()
+                if game_mode == 2:
+                    AI_move = self.model.select_best_move(self.model.curr_player)
+                elif game_mode == 3:
+                    if self.model.get_available_moves(self.model.curr_player):
+                        AI_move = self.model.select_move_serious_AI()
+                #if moves available - make the move and switch to human player.
+                if AI_move:
+                    self.model.make_move(AI_move[0], AI_move[1])
+                    self.model.change_player(game_mode)
+                else:
+                       break
 
  
 
