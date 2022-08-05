@@ -25,7 +25,7 @@ class GameConsoleView(GameView):
         row, col = int(s[0])-1, int(s[1])-1
         break
       except:
-        print('Coordinates should be two numbers, separated by comma. Try again')
+        print('\nCoordinates should be two numbers, separated by comma. Try again')
     return row, col
   
   def get_move_with_AI(self):
@@ -37,28 +37,31 @@ class GameConsoleView(GameView):
         row, col = int(s[0])-1, int(s[1])-1
         break
       except:
-        print('Coordinates should be two numbers, separated by comma. Try again')
+        print('\nCoordinates should be two numbers, separated by comma. Try again')
     return row, col
   
   def no_moves(self, player):
     """Prints message to user if they have no moves left
     """
-    print(f'Player {player}, you ran out of moves.')
+    print(f'\nPlayer {player}, you ran out of moves.')
   
   def display_invalid_move(self):
     """Prints message to user if the move is invalid
     """
-    print('This is not a valid move! Try again.')
+
+    print('\nThis is not a valid move! Try again.')
 
   def display_options(self):
     """Prints message asking whether they want a hint 
     """
+    print()
     choice = input('Would you like to see possible moves?\nYes for hint, or No to continue ')
     return choice.lower()
   
   def draw_board(self):
     """calls draw board method from Board View class
     """
+    print()
     self.board_view.draw_board()
 
   def display_winner(self, player):
@@ -71,7 +74,9 @@ class GameConsoleView(GameView):
     """
     while True:
       try:
-        choice = int(input('Welcome to Reversi. Select mode:\n1: to play against another player, 2: to play against simple computer, 3: to play against advanced computer, 4: to play against hardcore AI:  '))              
+        choice = int(input('\nWelcome to Reversi. Select mode:\
+        \n\n1: to play against another player      2: to play against simple computer \
+        \n3: to play against advanced computer   4: to play against hardcore AI\nYour choice:   '))              
         if choice in range (1,5):
           return choice
         else:
@@ -86,7 +91,7 @@ class GameConsoleView(GameView):
   def display_computer_move(self):
     """prints message about computers turn
     """
-    print('It is computer turn now. Thinking...')
+    print('\nIt is computer\'s turn now. Thinking...')
   
   def display_scores(self, scores):
     """displays scores of the game

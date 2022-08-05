@@ -3,3 +3,5 @@ Date: 2022-8-5  18:3, Winner: O, Scores: {'X': 8, 'O': 17}
 Date: 2022-8-5  18:4, Winner: O, Scores: {'X': 12, 'O': 13}
 Date: 2022-8-5  18:5, Winner: O, Scores: {'X': 12, 'O': 13}
 Date: 2022-8-5  18:5, Winner: O, Scores: {'X': 4, 'O': 21}
+Date: 2022-8-5  18:40, Winner: O, Scores: {'X': 3, 'O': 22}
+Date: 2022-8-5  19:13, Winner: X, Scores: {'X': 37, 'O': 27}
