@@ -35,7 +35,9 @@ class Moves{
     is_valid_coordinates()
     is_valid_move()
 }
-enum Player{
+enum HumanPlayer{
+}
+enum AIPlayer{
 }
 
 class BoardConsoleView{
@@ -75,15 +77,18 @@ abstract class GameView{
     menu()
     display_scores()
 }
-Game *-- Player
+Game *-- HumanPlayer
+Game *-- AIPlayer
 Game *-- Board
 Game *-- Moves
 Moves *-- Board
-Moves *-- Player
+Moves *-- HumanPlayer
+Moves *--AIPlayer
 BoardView *-- Board 
 GameView *-- Game
 BoardConsoleView *-- Board
-BoardConsoleView *-- Player
+BoardConsoleView *--HumanPlayer
+BoardConsoleView *-- AIPlayer
 BoardConsoleView <|--BoardView
 GameConsoleView *-- BoardConsoleView
 GameConsoleView *-- Game
