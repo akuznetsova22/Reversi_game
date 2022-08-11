@@ -39,7 +39,6 @@ class GameController:
                 self.view.display_computer_move()
                 if game_mode == 2:
                     AI_move = self.model.select_best_move(self.model.curr_player)
-                    print(AI_move)
                 elif game_mode == 3 or game_mode == 4:
                     if self.model.get_available_moves(self.model.curr_player):
                         AI_move = self.model.select_move_serious_AI(game_mode)
